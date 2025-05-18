@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="還在煩惱中科大、一中街附近午餐或晚餐要吃什麼嗎？使用「中科大美食隨機決定器」，輕鬆解決您的選擇困難，快速找到下一餐！">
+    <meta name="keywords" content="中科大美食, 隨機決定, 午餐, 晚餐, 吃什麼, 一中美食, 美食選擇器">
+    <title>中科大美食隨機決定器 | 午餐晚餐吃什麼？</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #FDF8F1;
+            color: #4A4A4A;
+            padding: 20px;
+            box-sizing: border-box;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #3D3D3D;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 2.8em;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* 針對主要說明文字的樣式 */
+        .description-text {
+            text-align: center;
+            margin-bottom: 20px;
+            max-width: 600px;
+            color: #555;
+        }
+        
+        /* 針對 "店家清單" 這個小標題 */
+        .list-title {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #3D3D3D;
+        }
+
+        .options-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 35px;
+            width: 100%;
+            max-width: 850px;
+        }
+
+        /* 選項項目容器 (<a> 標籤或其 wrapper) */
+        .options-container a,
+        .options-container .option-item-wrapper {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-grow: 1;
+            min-width: 130px;
+            border-radius: 8px;
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .options-container a:hover,
+        .options-container .option-item-wrapper:hover .option-item:not(.special-option) {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+         .options-container .option-item-wrapper:hover .option-item.special-option {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.07);
+        }
+
+        .option-item {
+            background-color: #FFFFFF;
+            border: 1px solid #EAEAEA;
+            border-radius: 8px;
+            padding: 15px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            box-sizing: border-box;
+            text-align: center;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        /* 特殊選項 "再轉一次" 的樣式 */
+        .option-item.special-option {
+            background-color: #ECEFF1;
+            color: #37474F;
+            border-color: #CFD8DC;
+        }
+
+        button {
+            background-color: #FF7043;
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            min-width: 220px;
+            max-width: 100%;
+            box-shadow: 0 4px 12px rgba(255, 112, 67, 0.3);
+        }
+
+        button:hover {
+            background-color: #F4511E;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(244, 81, 30, 0.4);
+        }
+
+        #result {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #FF7043;
+            margin-top: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+            min-height: 40px;
+            padding: 20px 25px;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 650px;
+            box-sizing: border-box;
+        }
+
+        .footer-info {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 25px;
+            border-top: 1px solid #E0E0E0;
+            width: 100%;
+            max-width: 850px;
+            font-size: 0.9rem;
+            color: #757575;
+        }
+        .footer-info p {
+            margin: 8px 0;
+        }
+        .footer-info a {
+            color: #FF7043;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer-info a:hover {
+            text-decoration: underline;
+            color: #F4511E;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+             .list-title {
+                font-size: 1.2em;
+            }
+            .options-container {
+                gap: 12px;
+            }
+            .options-container a,
+            .options-container .option-item-wrapper {
+                 flex-basis: calc(50% - 6px);
+                 min-width: 0;
+            }
+            .option-item {
+                font-size: 0.95rem;
+                padding: 12px 15px;
+            }
+            #result {
+                font-size: 1.5rem;
+            }
+            button {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.9em;
+                margin-top: 15px;
+                margin-bottom: 10px;
+            }
+            .description-text {
+                font-size: 0.9rem;
+                margin-bottom: 15px;
+            }
+            .list-title {
+                font-size: 1.1em;
+                margin-top: 20px;
+            }
+            .options-container {
+                gap: 10px;
+                margin-bottom: 25px;
+            }
+            .options-container a,
+            .options-container .option-item-wrapper {
+                 flex-basis: 100%;
+                 min-width: 100%;
+            }
+            .option-item {
+                font-size: 0.9rem;
+                padding: 12px;
+            }
+            button {
+                width: 100%;
+                padding: 15px;
+                font-size: 1rem;
+                margin-top: 15px;
+                margin-bottom: 20px;
+            }
+            #result {
+                font-size: 1.3rem;
+                padding: 15px;
+                margin-top: 20px;
+                margin-bottom: 25px;
+            }
+            .footer-info {
+                margin-top: 35px;
+                padding-top: 15px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>吃什麼？</h1>
+    <p class="description-text">本網站食物皆由設計者主觀新增，不在上面的店家不代表不好吃。</p>
+    
+    <button onclick="decide()">隨機選一個！</button>
+
+    <div id="result">點擊按鈕開始選擇</div>
+
+    <p class="list-title">店家清單 (點擊可前往Google地圖)</p>
+    <div class="options-container" id="optionsList">
+        </div>
+
+    <script>
+        const options = [
+            "丸龜製麵",
+            "丸勝咖哩",
+            "JT燉飯",
+            "蘇坤蔚牛排",
+            "二口炒飯",
+            "亞丁尼 一中",
+            "晨家早午餐 一中",
+            "艾初早午餐 一中太平",
+            "SUBWAY 台中三民",
+            "肯德基 台中五權餐廳",
+            "漢堡王 一中",
+            "振興行",
+            "花月嵐 中友",
+            "一中飯飯",
+            "山西刀削麵食館",
+            "小象",
+            "金煮韓食 一中",
+            "亞丁尼對面的雞肉飯",
+            "鐵板燒 一中",
+            "忠午飯捲",
+            "抓 蔥抓餅專賣",
+            "小紅帽烤肉飯",
+            "食也",
+            "京厚屋 一中",
+            "私肉羹",
+            "天使雞排or八兩",
+            "鍋湯匯 一中",
+            "麥當勞 三民",
+            "爭鮮 中友",
+            "全方位自助餐",
+            "初心手作壽司 一中",
+            "好犀利麻辣鴨血 愛廣場",
+            "虎福福飯包",
+            "阿如早餐",
+            "川牛 一中",
+            "再轉一次" // 特殊選項
+        ];
+
+        const optionsListContainer = document.getElementById('optionsList');
+        const resultDiv = document.getElementById('result');
+
+        // 將選項顯示在頁面上
+        options.forEach(option => {
+            const optionElement = document.createElement('div');
+            optionElement.classList.add('option-item');
+            optionElement.textContent = option;
+
+            if (option === "再轉一次") {
+                optionElement.classList.add('special-option');
+                optionElement.style.cursor = 'pointer';
+                optionElement.addEventListener('click', decide);
+
+                const wrapper = document.createElement('div');
+                wrapper.classList.add('option-item-wrapper');
+                wrapper.appendChild(optionElement);
+                optionsListContainer.appendChild(wrapper);
+
+            } else {
+                // 其他店家名稱，則建立連結
+                const linkElement = document.createElement('a');
+                // 將按鈕的文字(option)設為Google地圖搜尋的關鍵字
+                linkElement.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(option)}`;
+                linkElement.target = "_blank";
+                linkElement.rel = "noopener noreferrer";
+
+                linkElement.appendChild(optionElement);
+                optionsListContainer.appendChild(linkElement);
+            }
+        });
+
+        function decide() {
+            resultDiv.textContent = "決定中...";
+            resultDiv.style.color = "#FF7043";
+
+            // 模擬一點延遲，增加趣味性
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * options.length);
+                const chosenOption = options[randomIndex];
+                
+                resultDiv.innerHTML = `就是它了： <strong style="color: #E64A19;">${chosenOption}</strong>`;
+
+                // 如果選中的是 "再轉一次"，則自動再轉一次
+                if (chosenOption === "再轉一次") {
+                    resultDiv.innerHTML = `抽到 "再轉一次"，<strong style="color: #E64A19;">自動重新選擇！</strong>`;
+                    setTimeout(decide, 1500);
+                }
+            }, 700);
+        }
+    </script>
+
+    <div class="footer-info">
+        <p><a href="https://pine-swamp-64e.notion.site/1f64b71279d480008b2fcaf1522fd1d8" target="_blank" rel="noopener noreferrer">想新增食物點我(表單)</a></p>
+        <p>網站製作者: onedream</p>
+    </div>
+</body>
+</html>

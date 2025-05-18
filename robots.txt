@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://lunch.onedream404.dpdns.org/sitemap.xml
