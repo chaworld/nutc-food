@@ -2,7 +2,6 @@
 
 一個幫助你快速決定吃什麼的隨機選擇工具。
 
-**網站連結：** [https://lunch.onedream404.dpdns.org/](https://lunch.onedream404.dpdns.org/)
 
 ## 功能特色
 
